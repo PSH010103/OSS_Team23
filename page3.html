@@ -11,37 +11,13 @@
 		integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
 
-	<title>Read Books in English</title>
-	<style>
-		.container {
-			width: 1280px;
-		}
-	</style>
 </head>
 <body>
-	<nav class="navbar navbar-light bg-light">
-		<div class="container">
-			<span class="navbar-brand mb-0 h1"><i class="bi bi-book"></i> Read Books in Englsih </span>
-		</div>
-	</nav>
-	<p></p>
-	<a href="page1.html">
-		<img src="photo1.png" class="rounded" width = "200" height ="200" alt="The Three Little Pigs"/>
-	</a>
-	<a href="page2.html">
-		<img src="photo2.png" class="rounded" width = "200" height ="200" alt="PiggyBook"/>
-	</a>
-	<a href="page3.html">
-		<img src="photo3.png" class="rounded" width = "200" height ="200" alt="The Ants and the Grasshopper"/>
-	</a>
-	<a href="page4.html">
-		<img src="photo4.png" class="rounded" width = "200" height ="200" alt="The Fox and the Stork"/>
-	</a>
-	<a href="page5.html">
-		<img src="photo5.png" class="rounded" width = "200" height ="200" alt="North Wind and the Sun"/>
-	</a>
-	<button type="button" class="btn btn-secondary btn-lg"><i class="bi bi-plus-square"></i> Make your book</button>
+	<div style="text-align : center;">
+		<img src="photo3.png" class="rounded" width = "500" height ="500" alt="The Ants and the Grasshopper"/>
+	</div>
 </body>
+
 
 
 
@@ -81,8 +57,25 @@
 		</div>
 	</div>
 
-    <!-- Text Area  for the User to Type -->
-    <textarea class="form-control bg-dark text-light mt-5" cols="30" rows="5" placeholder="Type what you want to read.."></textarea>
+    <textarea id="output" class="form-control bg-dark text-light mt-5" cols="30" rows="5">
+In a field one summer's day a grasshopper was hopping about, chirping and singing to its heart's content.  
+A group of ants walked by, grunting as they struggled to carry plump kernels of corn.
+"Where are you going with those heavy things?" asked the grasshopper.
+Without stopping, the first ant replied, "To our ant hill.  
+This is the third kernel I've delivered today."
+"Why not come and sing with me," teased the grasshopper, "instead of working so hard?" 
+"We are helping to store food for the winter," said the ant, "and think you should do the same."  
+"Winter is far away and it is a glorious day to play," sang the grasshopper.
+But the ants went on their way and continued their hard work.
+The weather soon turned cold.  
+All the food lying in the field was covered with a thick white blanket of snow that even the grasshopper could not dig through.  
+Soon the grasshopper found itself dying of hunger.
+He staggered to the ants' hill and saw them handing out corn from the stores they had collected in the summer.  
+He begged them for something to eat.
+"What!" cried the ants in surprise, "haven't you stored anything away for the winter?  What in the world were you doing all last summer?" 
+"I didn't have time to store any food," complained the grasshopper; "I was so busy playing music that before I knew it the summer was gone." 
+The ants shook their heads in disgust, turned their backs on the grasshopper and went on with their work.
+</textarea>
 
     <!-- Control Buttons -->
     <div class="mb-5">
@@ -95,65 +88,83 @@
 	<script>
 		let speech = new SpeechSynthesisUtterance();
 
+		// Set Speech Language
 		speech.lang = "en";
 
-		let voices = []; 
+		let voices = []; // global array of available voices
 
 		window.speechSynthesis.onvoiceschanged = () => {
+			// Get List of Voices
 			voices = window.speechSynthesis.getVoices();
 
+			// Initially set the First Voice in the Array.
 			speech.voice = voices[0];
 
+			// Set the Voice Select List. (Set the Index as the value, which we'll use later when the user updates the Voice using the Select Menu.)
 			let voiceSelect = document.querySelector("#voices");
 			voices.forEach((voice, i) => (voiceSelect.options[i] = new Option(voice.name, i)));
 		};
 
 		document.querySelector("#rate").addEventListener("input", () => {
+			// Get rate Value from the input
 			const rate = document.querySelector("#rate").value;
 
+			// Set rate property of the SpeechSynthesisUtterance instance
 			speech.rate = rate;
 
+			// Update the rate label
 			document.querySelector("#rate-label").innerHTML = rate;
 		});
 
 		document.querySelector("#volume").addEventListener("input", () => {
+		// Get volume Value from the input
 			const volume = document.querySelector("#volume").value;
 
+			// Set volume property of the SpeechSynthesisUtterance instance
 			speech.volume = volume;
 
+			// Update the volume label
 			document.querySelector("#volume-label").innerHTML = volume;
 		});
 
 		document.querySelector("#pitch").addEventListener("input", () => {
+		// Get pitch Value from the input
 			const pitch = document.querySelector("#pitch").value;
 
+			// Set pitch property of the SpeechSynthesisUtterance instance
 			speech.pitch = pitch;
 
+			// Update the pitch label
 			document.querySelector("#pitch-label").innerHTML = pitch;
 		});
 
 		document.querySelector("#voices").addEventListener("change", () => {
+			// On Voice change, use the value of the select menu (which is the index of the voice in the global voice array)
 			speech.voice = voices[document.querySelector("#voices").value];
 		});
 
 		document.querySelector("#start").addEventListener("click", () => {
+			// Set the text property with the value of the textarea
 			speech.text = document.querySelector("textarea").value;
+			// Start Speaking
 			window.speechSynthesis.speak(speech);
 		});
 
 		document.querySelector("#pause").addEventListener("click", () => {
+			// Pause the speechSynthesis instance
 			window.speechSynthesis.pause();
 		});
 
 		document.querySelector("#resume").addEventListener("click", () => {
+			// Resume the paused speechSynthesis instance
 			window.speechSynthesis.resume();
 		});
 
 		document.querySelector("#cancel").addEventListener("click", () => {
+			// Cancel the speechSynthesis instance
 			window.speechSynthesis.cancel();
 		});
-
+		
 	</script>
 </body>
 </html>
-
